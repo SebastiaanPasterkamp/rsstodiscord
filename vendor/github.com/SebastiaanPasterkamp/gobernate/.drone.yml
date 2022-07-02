@@ -1,0 +1,89 @@
+---
+kind: pipeline
+type: kubernetes
+name: Test
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: unit-test
+    image: golang:1.15-stretch
+    commands:
+      - apt-get update
+      - apt-get install -y git build-essential
+      - go test -coverprofile cover.out ./...
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
+
+  - name: coverage
+    image: golang:1.15-stretch
+    commands:
+      - go tool cover -func cover.out
+    depends_on:
+      - unit-test
+
+---
+kind: pipeline
+type: kubernetes
+name: Image Staging
+
+depends_on:
+- Test
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: build-test
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
+    settings:
+      registry: docker-registry-service.docker-registry:5000
+      repo: gobernate
+      tags: ${DRONE_BRANCH},unstable
+      cache: true
+      insecure_registry: true
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
+
+---
+kind: pipeline
+type: kubernetes
+name: Image Production
+
+trigger:
+  event:
+  - tag
+
+depends_on:
+- Image Staging
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: build-production
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
+    settings:
+      registry: docker-registry-service.docker-registry:5000
+      repo: gobernate
+      auto_tag: true
+      cache: true
+      insecure_registry: true
+    resources:
+      limits:
+        cpu: 1000
+        memory: 500MiB
+
+---
+kind: signature
+hmac: 6a267aac752447ec51f97e4a7cde40cf895047a07c6eda44ef5820d9acd9ee28
+
+...
