@@ -27,7 +27,10 @@ RUN go build \
     " \
     cmd/rsstodiscord/main.go
 
-FROM alpine AS nonroot
+FROM alpine:3.12 AS security
+
+RUN apk add --no-cache \
+    ca-certificates
 
 ENV USER=rsstodiscord
 ENV UID=1000
@@ -61,7 +64,8 @@ LABEL build.branch=${GIT_BRANCH}
 LABEL build.sha=${GIT_COMMIT}
 
 COPY LICENSE /app/
-COPY --from=nonroot /etc/passwd /etc/passwd
+COPY --from=security /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/ca-certificates.crt
+COPY --from=security /etc/passwd /etc/passwd
 COPY --from=build /app/rsstodiscord /app/
 
 EXPOSE 8080
