@@ -1,0 +1,141 @@
+---
+kind: pipeline
+type: kubernetes
+name: Test
+
+platform:
+    os: linux
+    arch: arm
+
+steps:
+  - name: golang:test
+    image: golang:1.18-stretch
+    commands:
+      # 'go test -race ...' not supported on ARM
+      - go test -parallel=2 -v -coverprofile cover.out -count=1 ./...
+
+  - name: golang:coverage:report
+    image: golang:1.18-stretch
+    commands:
+      - go tool cover -func cover.out
+
+  - name: golang:build
+    image: golang:1.18-stretch
+    environment:
+      CGO_ENABLED: 0
+      GO111MODULE: on
+      GOFLAGS: -mod=vendor
+    commands:
+      - go build -a -o rsstodiscord cmd/rsstodiscord/main.go
+
+  - name: golang:run
+    image: golang:1.18-stretch
+    commands:
+      # Note: This command is expected to fail
+      - >-
+        ! ./rsstodiscord --help
+
+---
+kind: pipeline
+type: kubernetes
+name: Image Staging
+
+depends_on:
+- Test
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: docker:staging
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
+    settings:
+      repo: cromrots/rsstodiscord
+      tags: unstable
+      cache_from: cromrots/rsstodiscord:cache
+      cache_to: cromrots/rsstodiscord:cache
+      password:
+        from_secret: docker_pwd
+      username:
+        from_secret: docker_user
+
+---
+kind: pipeline
+type: kubernetes
+name: Image Production
+
+trigger:
+  event:
+  - tag
+
+depends_on:
+- Image Staging
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: docker:staging
+    image: docker-registry.pikube.dev:31443/drone-genuinetools-img
+    settings:
+      repo: cromrots/rsstodiscord
+      auto_tag: true
+      cache_from: cromrots/rsstodiscord:cache
+      cache_to: cromrots/rsstodiscord:cache
+      password:
+        from_secret: docker_pwd
+      username:
+        from_secret: docker_user
+
+---
+kind: pipeline
+type: kubernetes
+name: Notify Status
+
+clone:
+  disable: true
+
+trigger:
+  status:
+  - success
+  - failure
+
+depends_on:
+- Image Staging
+- Image Production
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: discord:notification
+    image: appleboy/drone-discord:1.2.6
+    settings:
+      webhook_id:
+        from_secret: discord_id
+      webhook_token:
+        from_secret: discord_token
+      username: drone.io
+      color: auto
+      message: >
+        :mag: **{{repo.name}}**
+
+        {{#success build.status}}
+        :white_check_mark: {{build.event}} build {{build.number}} succeeded. Good job.
+        {{else}}
+        :warning: {{build.event}} build {{build.number}} failed. Fix me please.
+        {{/success}}
+
+        {{build.link}}
+
+        **Branch:** {{commit.branch}} {{commit.tag}}
+
+        **Message:** {{commit.message}}
+---
+kind: signature
+hmac: 8e275b58e854ab183b9ea7dfb1fd8304985b631266ae82c22b3213226281fb01
+
+...
