@@ -40,14 +40,17 @@ func main() {
 	p := rss.NewParser()
 
 	c := checker.Configuration{
-		URL:      cfg.RSS,
-		Cache:    m,
-		TTL:      24 * time.Hour,
-		Fetch:    p.ParseURLWithContext,
-		Send:     d.Send,
-		Timeout:  cfg.Timeout,
-		Interval: cfg.Serve.Interval,
-		Delay:    cfg.Delay,
+		URL:     cfg.RSS,
+		Cache:   m,
+		TTL:     24 * time.Hour,
+		Fetch:   p.ParseURLWithContext,
+		Send:    d.Send,
+		Timeout: cfg.Timeout,
+		Delay:   cfg.Delay,
+	}
+
+	if cfg.Serve != nil {
+		c.Interval = cfg.Serve.Interval
 	}
 
 	switch {
