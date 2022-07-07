@@ -14,6 +14,29 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
+configuration:
+  - name: DISCORD_WEBHOOK
+    valueFrom:
+      secretKeyRef:
+        name: rsstodiscord
+        key: discord_webhook
+  - name: RSS_URL
+    valueFrom:
+      secretKeyRef:
+        name: rsstodiscord
+        key: rss_url
+  # - name: INTERVAL
+  #   value: 5m
+  # - name: REDIS_ADDRESS
+  #   value: host:port
+  # - name: REDIS_PASSWORD
+  #   valueFrom:
+  #     secretKeyRef:
+  #       name: rsstodiscord
+  #       key: redis_password
+  # - name: REDIS_DATABASE
+  #   value: "0"
+
 serviceAccount:
   # Specifies whether a service account should be created
   create: true

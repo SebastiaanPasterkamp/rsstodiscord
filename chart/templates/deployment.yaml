@@ -29,15 +29,16 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
-          {{- if ((.Values.resources).limits).cpu }}
           env:
+            {{- if ((.Values.resources).limits).cpu }}
             - name: GOMAXPROCS
               {{- if toString .Values.resources.limits.cpu | regexMatch "^[0-9]+m$"  }}
               value: {{ divf (.Values.resources.limits.cpu | replace "m" "" | float64) 1000 | ceil | toString | quote }}
               {{- else }}
               value: {{ .Values.resources.limits.cpu | toString | quote }}
               {{- end }}
-          {{- end }}
+            {{- end -}}
+            {{ .Values.configuration | toYaml | nindent 12 }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
