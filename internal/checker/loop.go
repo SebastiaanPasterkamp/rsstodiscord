@@ -2,6 +2,7 @@ package checker
 
 import (
 	"context"
+	"errors"
 	"log"
 	"time"
 )
@@ -15,7 +16,7 @@ func (c Configuration) Loop(ctx context.Context) {
 	defer ticker.Stop()
 
 	err := c.Relay(ctx)
-	if err != nil {
+	if err != nil && !errors.Is(err, ErrNoItems) {
 		log.Printf("Failed to relay RSS to Discord: %v", err)
 	}
 
@@ -25,7 +26,7 @@ func (c Configuration) Loop(ctx context.Context) {
 			return
 		case <-ticker.C:
 			err := c.Relay(ctx)
-			if err != nil {
+			if err != nil && !errors.Is(err, ErrNoItems) {
 				log.Printf("Failed to relay RSS to Discord: %v", err)
 			}
 		}
