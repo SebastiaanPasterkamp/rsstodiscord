@@ -44,7 +44,7 @@ type Serve struct {
 	Port string `args:"--port,env:PORT" default:"8080"`
 	// Interval determines how often the feed is going to
 	// be polled.
-	Interval time.Duration `args:"--interval" default:"5m" help:"RSS polling interval."`
+	Interval time.Duration `args:"--interval,env:INTERVAL" default:"5m" help:"RSS polling interval."`
 }
 
 // Arguments is the data structure for the CLI
