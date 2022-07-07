@@ -57,6 +57,7 @@ steps:
   - name: docker:staging
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
+      build_args: GIT_BRANCH=${DRONE_BRANCH},GIT_COMMIT=${DRONE_COMMIT},GIT_TAG=unstable
       repo: cromrots/rsstodiscord
       tags: unstable
       cache_from: cromrots/rsstodiscord:cache
@@ -83,9 +84,10 @@ platform:
   arch: arm
 
 steps:
-  - name: docker:staging
+  - name: docker:production
     image: docker-registry.pikube.dev:31443/drone-genuinetools-img
     settings:
+      build_args: GIT_BRANCH=${DRONE_BRANCH},GIT_COMMIT=${DRONE_COMMIT},GIT_TAG=${DRONE_TAG}
       repo: cromrots/rsstodiscord
       auto_tag: true
       cache_from: cromrots/rsstodiscord:cache
@@ -142,6 +144,6 @@ steps:
         **Message:** {{commit.message}}
 ---
 kind: signature
-hmac: 8e275b58e854ab183b9ea7dfb1fd8304985b631266ae82c22b3213226281fb01
+hmac: 3cf404a8a8453bc8d73388ab503498f3da353344341add1677d73745c4d0de32
 
 ...
