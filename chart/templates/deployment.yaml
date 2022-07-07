@@ -29,6 +29,15 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       containers:
         - name: {{ .Chart.Name }}
+          {{- if ((.Values.resources).limits).cpu }}
+          env:
+            - name: GOMAXPROCS
+              {{- if toString .Values.resources.limits.cpu | regexMatch "^[0-9]+m$"  }}
+              value: {{ divf (.Values.resources.limits.cpu | replace "m" "" | float64) 1000 | ceil | toString | quote }}
+              {{- else }}
+              value: {{ .Values.resources.limits.cpu | toString | quote }}
+              {{- end }}
+          {{- end }}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -39,11 +48,11 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /
+              path: /health
               port: http
           readinessProbe:
             httpGet:
-              path: /
+              path: /readiness
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}

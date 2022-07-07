@@ -35,6 +35,12 @@ steps:
       - >-
         ! ./rsstodiscord --help
 
+  - name: helm:test
+    image: alpine/helm:3.9.0
+    commands:
+      - helm lint chart
+      - helm template chart
+
 ---
 kind: pipeline
 type: kubernetes
