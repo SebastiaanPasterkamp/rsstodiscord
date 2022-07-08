@@ -6,15 +6,15 @@ ENV CGO_ENABLED=0
 ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
 
-ARG GIT_TAG
-ARG GIT_COMMIT
-ARG GIT_BRANCH
-ARG BUILD_TIME
-
 COPY go.mod go.sum /app/
 COPY cmd/ /app/cmd/
 COPY vendor/ /app/vendor/
 COPY internal/ /app/internal/
+
+ARG GIT_TAG
+ARG GIT_COMMIT
+ARG GIT_BRANCH
+ARG BUILD_TIME
 
 RUN go build \
     -o rsstodiscord \
