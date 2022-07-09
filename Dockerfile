@@ -1,10 +1,15 @@
-FROM golang:1.18 as build
+FROM --platform=${BUILDPLATFORM} golang:1.18 as build
 
 WORKDIR /app
+
+ARG TARGETOS
+ARG TARGETARCH
 
 ENV CGO_ENABLED=0
 ENV GO111MODULE=on
 ENV GOFLAGS=-mod=vendor
+ENV GOOS=${TARGETOS}
+ENV GOARCH=${TARGETARCH}
 
 COPY go.mod go.sum /app/
 COPY cmd/ /app/cmd/
@@ -14,9 +19,9 @@ COPY internal/ /app/internal/
 ARG GIT_TAG
 ARG GIT_COMMIT
 ARG GIT_BRANCH
-ARG BUILD_TIME
 
-RUN go build \
+RUN BUILD_TIME=$(date -Iseconds) \
+    go build \
     -o rsstodiscord \
     -ldflags "\
         -s -w \
@@ -27,7 +32,7 @@ RUN go build \
     " \
     cmd/rsstodiscord/main.go
 
-FROM alpine:3.12 AS security
+FROM --platform=${BUILDPLATFORM} alpine:3.12 AS security
 
 RUN apk add --no-cache \
     ca-certificates
@@ -49,17 +54,15 @@ RUN addgroup \
         -u "$UID" \
         "$USER"
 
-FROM scratch
+FROM --platform=${TARGETPLATFORM} scratch
 
 EXPOSE 9090
 
 ARG GIT_TAG
 ARG GIT_COMMIT
 ARG GIT_BRANCH
-ARG BUILD_TIME
 
 LABEL version=${GIT_TAG}
-LABEL build.time=${BUILD_TIME}
 LABEL build.branch=${GIT_BRANCH}
 LABEL build.sha=${GIT_COMMIT}
 
@@ -72,4 +75,4 @@ EXPOSE 8080
 
 ENTRYPOINT [ "/app/rsstodiscord" ]
 
-CMD ["serve"]
+CMD [ "serve" ]
