@@ -62,6 +62,7 @@ steps:
       tags: unstable
       cache_from: cromrots/rsstodiscord:cache
       cache_to: cromrots/rsstodiscord:cache
+      platform: linux/amd64,linux/arm64,linux/arm/v7
       password:
         from_secret: docker_pwd
       username:
@@ -92,6 +93,7 @@ steps:
       auto_tag: true
       cache_from: cromrots/rsstodiscord:cache
       cache_to: cromrots/rsstodiscord:cache
+      platform: linux/amd64,linux/arm64,linux/arm/v7
       password:
         from_secret: docker_pwd
       username:
@@ -144,6 +146,6 @@ steps:
         **Message:** {{commit.message}}
 ---
 kind: signature
-hmac: 3cf404a8a8453bc8d73388ab503498f3da353344341add1677d73745c4d0de32
+hmac: 38ce662a3bb0494005e0f8075ac40b4bc73e143f791a84520f23c472e4ce4c6b
 
 ...
