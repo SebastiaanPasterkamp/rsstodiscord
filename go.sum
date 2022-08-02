@@ -9,6 +9,8 @@ github.com/SebastiaanPasterkamp/go-cache v1.0.0 h1:p+bjIHQVIVwVDCBF2Bw0m5sqXpY/n
 github.com/SebastiaanPasterkamp/go-cache v1.0.0/go.mod h1:Vj5R4cIvqBVIGK7cXkFU3xHd4/xF8/RVB5PEA8g5TEY=
 github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220704202456-ec7644f8c120 h1:XIymc5ltaHZPeI8GtqBSXABBV1Bab6fLRvIRsXlFD6k=
 github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220704202456-ec7644f8c120/go.mod h1:TXyQjOKdb4kxxul5lvTEfvXL+i5eugutkwoefDd5cok=
+github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220802221332-054a90c9be83 h1:Ko7xqFWRHzJYUaRSi5+fDKOsu+5q1rms9ZjdafriFJE=
+github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220802221332-054a90c9be83/go.mod h1:IDkzLg1YxjHcNEcWF/mrfqN/RCOO+9BALqALByncNik=
 github.com/SebastiaanPasterkamp/gobernate v1.2.2 h1:t1U8U3kngNLrjBJMu5CythNObnzAULyD4z543rcGInc=
 github.com/SebastiaanPasterkamp/gobernate v1.2.2/go.mod h1:iMeFIUH0PObXdOK+pJrZ3StAVyD+Cmuw9O3LQYOUnxw=
 github.com/Shopify/sarama v1.19.0/go.mod h1:FVkBWblsNy7DGZRfXLU0O9RCGt5g3g3yEuWXgklEdEo=

@@ -4,7 +4,7 @@ go 1.19
 
 require (
 	github.com/SebastiaanPasterkamp/go-cache v1.0.0
-	github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220704202456-ec7644f8c120
+	github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220802221332-054a90c9be83
 	github.com/SebastiaanPasterkamp/gobernate v1.2.2
 	github.com/alexflint/go-arg v1.4.3
 	github.com/mmcdole/gofeed v1.1.3

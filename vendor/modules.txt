@@ -4,8 +4,8 @@ github.com/PuerkitoBio/goquery
 # github.com/SebastiaanPasterkamp/go-cache v1.0.0
 ## explicit; go 1.18
 github.com/SebastiaanPasterkamp/go-cache
-# github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220704202456-ec7644f8c120
-## explicit; go 1.18
+# github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220802221332-054a90c9be83
+## explicit; go 1.19
 github.com/SebastiaanPasterkamp/go-discordwebhook
 # github.com/SebastiaanPasterkamp/gobernate v1.2.2
 ## explicit; go 1.13
