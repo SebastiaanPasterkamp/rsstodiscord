@@ -1,6 +1,6 @@
 module github.com/SebastiaanPasterkamp/rsstodiscord
 
-go 1.18
+go 1.19
 
 require (
 	github.com/SebastiaanPasterkamp/go-cache v1.0.0
