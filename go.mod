@@ -7,7 +7,7 @@ require (
 	github.com/SebastiaanPasterkamp/go-discordwebhook v0.0.0-20220802221332-054a90c9be83
 	github.com/SebastiaanPasterkamp/gobernate v1.2.2
 	github.com/alexflint/go-arg v1.4.3
-	github.com/mmcdole/gofeed v1.1.3
+	github.com/mmcdole/gofeed v1.2.0
 )
 
 require (
@@ -30,8 +30,8 @@ require (
 	github.com/prometheus/common v0.14.0 // indirect
 	github.com/prometheus/procfs v0.2.0 // indirect
 	github.com/sirupsen/logrus v1.7.0 // indirect
-	golang.org/x/net v0.0.0-20220630215102-69896b714898 // indirect
-	golang.org/x/sys v0.0.0-20220520151302-bc2c85ada10a // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/net v0.4.0 // indirect
+	golang.org/x/sys v0.3.0 // indirect
+	golang.org/x/text v0.5.0 // indirect
 	google.golang.org/protobuf v1.23.0 // indirect
 )
