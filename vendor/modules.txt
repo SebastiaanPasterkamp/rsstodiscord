@@ -57,7 +57,7 @@ github.com/json-iterator/go
 # github.com/matttproud/golang_protobuf_extensions v1.0.1
 ## explicit
 github.com/matttproud/golang_protobuf_extensions/pbutil
-# github.com/mmcdole/gofeed v1.2.0
+# github.com/mmcdole/gofeed v1.2.1
 ## explicit; go 1.19
 github.com/mmcdole/gofeed
 github.com/mmcdole/gofeed/atom
@@ -65,8 +65,8 @@ github.com/mmcdole/gofeed/extensions
 github.com/mmcdole/gofeed/internal/shared
 github.com/mmcdole/gofeed/json
 github.com/mmcdole/gofeed/rss
-# github.com/mmcdole/goxpp v0.0.0-20200921145534-2f3784f67354
-## explicit
+# github.com/mmcdole/goxpp v1.1.0
+## explicit; go 1.19
 github.com/mmcdole/goxpp
 # github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd
 ## explicit
