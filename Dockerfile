@@ -32,7 +32,7 @@ RUN BUILD_TIME=$(date -Iseconds) \
     " \
     cmd/rsstodiscord/main.go
 
-FROM --platform=${BUILDPLATFORM} alpine:3.12 AS security
+FROM --platform=${BUILDPLATFORM} alpine:3.19 AS security
 
 RUN apk add --no-cache \
     ca-certificates
